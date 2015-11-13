@@ -60,7 +60,7 @@
                         <tr>
                             <td>New:</td>
                             <td><input ng-model="newEntry.name"></input></td>
-                            <td><input ng-model="newEntry.grade"></input></td>
+                            <td><input ng-model="newEntry.grade" ng-keyup="$event.keyCode == 13 && create(newEntry)"></input></td>
                             <td><button class="btn" ng-click="create(newEntry); newEntry = {}">create</button></td>
                         </tr>
                     </table>
