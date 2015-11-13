@@ -10,7 +10,7 @@
                     $scope._ = _;
                     $scope.entries = [
                         { name: 'Wendy', grade: 72 },
-                        { name: 'Jacob', grade: 83 },
+                        { name: 'Jacob', grade: 63 },
                         { name: 'Harris', grade: 87 },
                         { name: 'Penelope', grade: 94 }
                     ];
@@ -23,6 +23,9 @@
                 }
             ]);
         </script>
+        <style>
+            .failing { border: 2px solid red; }
+        </style>
         <link rel="stylesheet" href="lib/bootstrap-3.3.5-dist/css/bootstrap.css"></link>
     </head>
     <body ng-app="myApp">
@@ -35,7 +38,7 @@
                         <tr ng-repeat="($index, entry) in entries">
                             <td>{{$index}}</td>
                             <td><input ng-model="entry.name"></input></td>
-                            <td><input ng-model="entry.grade"></input></td>
+                            <td><input ng-model="entry.grade" ng-class="{failing: entry.grade < 65}"></input></td>
                             <td><button class="btn" ng-click="delete($index)">delete</button></td>
                         </tr>
                     </table>
