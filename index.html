@@ -14,6 +14,9 @@
                         { name: 'Harris', grade: 87 },
                         { name: 'Penelope', grade: 94 }
                     ];
+                    $scope.delete = function(index) {
+                        $scope.entries.splice(index, 1);
+                    }
                     $scope.averageIteratee = function(accumulator, value, index, collection) {
                         return accumulator + value.grade / collection.length;
                     };
@@ -33,6 +36,7 @@
                             <td>{{$index}}</td>
                             <td><input ng-model="entry.name"></input></td>
                             <td><input ng-model="entry.grade"></input></td>
+                            <td><button class="btn" ng-click="delete($index)">delete</button></td>
                         </tr>
                     </table>
                 </div>
