@@ -13,6 +13,9 @@
                         { name: 'Harris', grade: 87 },
                         { name: 'Penelope', grade: 94 }
                     ];
+                    $scope.averageIteratee = function(accumulator, value, index, collection) {
+                        return accumulator + value.grade / collection.length;
+                    };
                 }
             ]);
         </script>
@@ -38,6 +41,10 @@
                         <tr>
                             <td><label>Max:</label></td>
                             <td>{{ _(entries).max('grade').grade }}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Average:</label></td>
+                            <td>{{ _(entries).reduce(averageIteratee, 0) }}</td>
                         </tr>
                         <tr>
                             <td><label>Min:</label></td>
