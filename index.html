@@ -1,10 +1,12 @@
 <html>
     <head>
         <script src="lib/angular.js"></script>
+        <script src="lib/lodash.js"></script>
         <script>
             var myApp = angular.module('myApp', []);
             myApp.controller('GradeSheetCtrl', ['$scope',
                 function($scope) {
+                    $scope._ = _;
                     $scope.entries = [
                         { name: 'Wendy', grade: 72 },
                         { name: 'Jacob', grade: 83 },
@@ -32,6 +34,16 @@
                 </div>
                 <div class="col-xs-12 col-md-5" style="background-color: blue;">
                     <h3>Summary</h3>
+                    <table class="table">
+                        <tr>
+                            <td><label>Max:</label></td>
+                            <td>{{ _(entries).max('grade').grade }}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Min:</label></td>
+                            <td>{{ _(entries).min('grade').grade }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
