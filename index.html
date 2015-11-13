@@ -17,12 +17,26 @@
                     $scope.delete = function(index) {
                         $scope.entries.splice(index, 1);
                     }
-                    $scope.create = function(newEntry) {
-                        $scope.entries.push(newEntry);
-                    }
                     $scope.averageIteratee = function(accumulator, value, index, collection) {
                         return accumulator + value.grade / collection.length;
                     };
+                }
+            ]);
+            myApp.controller('NewEntryCtrl', ['$scope',
+                function($scope) {
+                    $scope.newEntry = {};
+
+                    function canCreate() {
+                        return angular.isString($scope.newEntry.name)
+                            && angular.isNumber($scope.newEntry.grade);
+                    }
+
+                    $scope.create = function() {
+                        if (canCreate()) {
+                            $scope.entries.push($scope.newEntry);
+                            $scope.newEntry = {};
+                        }
+                    }
                 }
             ]);
             myApp.directive('updateOnEnterInput', function() {
@@ -53,15 +67,15 @@
                     <table class="table">
                         <tr ng-repeat="($index, entry) in entries">
                             <td>{{$index}}</td>
-                            <td><update-on-enter-input model="entry.name"></update-on-enter-input></td>
-                            <td><update-on-enter-input model="entry.grade" ng-class="{failing: entry.grade < 65}"></update-on-enter-input></td>
+                            <td><update-on-enter-input model="entry.name" type="text"></update-on-enter-input></td>
+                            <td><update-on-enter-input model="entry.grade" type="number" ng-class="{failing: entry.grade < 65}"></update-on-enter-input></td>
                             <td><button class="btn" ng-click="delete($index)">delete</button></td>
                         </tr>
-                        <tr>
+                        <tr ng-controller="NewEntryCtrl">
                             <td>New:</td>
-                            <td><input ng-model="newEntry.name"></input></td>
-                            <td><input ng-model="newEntry.grade" ng-keyup="$event.keyCode == 13 && create(newEntry)"></input></td>
-                            <td><button class="btn" ng-click="create(newEntry); newEntry = {}">create</button></td>
+                            <td><input ng-model="newEntry.name" type="text" ng-keyup="$event.keyCode == 13 && create()"></input></td>
+                            <td><input ng-model="newEntry.grade" type="number" ng-keyup="$event.keyCode == 13 && create()"></input></td>
+                            <td><button class="btn" ng-click="create()">create</button></td>
                         </tr>
                     </table>
                 </div>
