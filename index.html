@@ -8,6 +8,7 @@
             myApp.controller('GradeSheetCtrl', ['$scope',
                 function($scope) {
                     $scope._ = _;
+                    $scope.columnLabels = ['#', 'Name', 'Grade', 'Delete?'];
                     $scope.entries = [
                         { name: 'Wendy', grade: 72 },
                         { name: 'Jacob', grade: 63 },
@@ -52,11 +53,18 @@
                 }
             });
         </script>
+        <link rel="stylesheet" href="lib/bootstrap-3.3.5-dist/css/bootstrap.css"></link>
         <style type="text/css">
+            input { height: 34px; }
             input:focus { border: 2px solid green; }
+            input[type="text"] { width: 300px; }
+            input[type="number"] { width: 75px; }
+            .table { width: auto; }
+            .table > tbody > tr > td { border: 1px solid #EEE; padding: 0px; height: 30px; }
+            .table > button { height: 30px; padding: 0px; }
+            .column-label > td, .row-label { text-align: center; background: #EEE; }
             .failing { border: 2px solid red; }
         </style>
-        <link rel="stylesheet" href="lib/bootstrap-3.3.5-dist/css/bootstrap.css"></link>
     </head>
     <body ng-app="myApp">
         <h1>Grade Sheet</h1>
@@ -65,14 +73,17 @@
                 <div class="col-xs-12 col-md-7" style="background-color: AliceBlue;">
                     <h3>Student Grades<h3>
                     <table class="table">
+                        <tr class="column-label">
+                            <td ng-repeat="label in columnLabels"><label>{{label}}</label></td>
+                        </tr>
                         <tr ng-repeat="($index, entry) in entries">
-                            <td>{{$index}}</td>
+                            <td class="row-label">{{$index}}</td>
                             <td><update-on-enter-input model="entry.name" type="text"></update-on-enter-input></td>
                             <td><update-on-enter-input model="entry.grade" type="number" ng-class="{failing: entry.grade < 65}"></update-on-enter-input></td>
                             <td><button class="btn" ng-click="delete($index)">delete</button></td>
                         </tr>
                         <tr ng-controller="NewEntryCtrl">
-                            <td>New:</td>
+                            <td class="row-label">New:</td>
                             <td><input ng-model="newEntry.name" type="text" ng-keyup="$event.keyCode == 13 && create()"></input></td>
                             <td><input ng-model="newEntry.grade" type="number" ng-keyup="$event.keyCode == 13 && create()"></input></td>
                             <td><button class="btn" ng-click="create()">create</button></td>
