@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <script src="lib/angular.js"></script>
+        <script>
+            var myApp = angular.module('myApp', []);
+            myApp.controller('GradeSheetCtrl', ['$scope',
+                function($scope) {
+                    $scope.entries = [
+                        { name: 'Wendy', grade: 72 },
+                        { name: 'Jacob', grade: 83 },
+                        { name: 'Harris', grade: 87 },
+                        { name: 'Penelope', grade: 94 }
+                    ];
+                }
+            ]);
+        </script>
+        <link rel="stylesheet" href="lib/bootstrap-3.3.5-dist/css/bootstrap.css"></link>
+    </head>
+    <body ng-app="myApp">
+        <h1>Grade Sheet</h1>
+        <div class="container-fluid" ng-controller="GradeSheetCtrl">
+            <div class="row">
+                <div class="col-xs-12 col-md-7" style="background-color: green;">
+                    <h3>Student Grades<h3>
+                    <table class="table">
+                        <tr ng-repeat="($index, entry) in entries">
+                            <td>{{$index}}</td>
+                            <td><input ng-model="entry.name"></input></td>
+                            <td><input ng-model="entry.grade"></input></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-xs-12 col-md-5" style="background-color: blue;">
+                    <h3>Summary</h3>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
