@@ -25,6 +25,18 @@
                     };
                 }
             ]);
+            myApp.directive('updateOnEnterInput', function() {
+                return {
+                    restrict: 'E',
+                    // Must replace the original update-on-enter-input element so that additional
+                    // attributes are added to the input in the directive template
+                    replace: true,
+                    template: '<input ng-model=\"model\" ng-model-options=\"{updateOn: \'change blur\'}\"></input>',
+                    scope: {
+                        model: '='
+                    }
+                }
+            });
         </script>
         <style type="text/css">
             input:focus { border: 2px solid green; }
@@ -41,8 +53,8 @@
                     <table class="table">
                         <tr ng-repeat="($index, entry) in entries">
                             <td>{{$index}}</td>
-                            <td><input ng-model="entry.name"></input></td>
-                            <td><input ng-model="entry.grade" ng-class="{failing: entry.grade < 65}"></input></td>
+                            <td><update-on-enter-input model="entry.name"></update-on-enter-input></td>
+                            <td><update-on-enter-input model="entry.grade" ng-class="{failing: entry.grade < 65}"></update-on-enter-input></td>
                             <td><button class="btn" ng-click="delete($index)">delete</button></td>
                         </tr>
                         <tr>
