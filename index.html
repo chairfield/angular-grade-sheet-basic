@@ -57,18 +57,10 @@
                      style="background-color: LemonChiffon;"
                      ng-show="entries.length >= 1">
                     <h3>Summary</h3>
-                    <table class="table">
-                        <tr>
-                            <td class="summary-row-label"><label>Max:</label></td>
-                            <td class="summary-row-value">{{ _(entries).max('grade').grade }}</td>
-                        </tr>
-                        <tr ng-show="entries.length >= 2">
-                            <td class="summary-row-label"><label>Average:</label></td>
-                            <td class="summary-row-value">{{ _(entries).reduce(averageIteratee, 0) | number:2 }}</td>
-                        </tr>
-                        <tr>
-                            <td class="summary-row-label"><label>Min:</label></td>
-                            <td class="summary-row-value">{{ _(entries).min('grade').grade }}</td>
+                    <table class="table" ng-controller="SummaryCtrl">
+                        <tr ng-repeat="summaryRow in summaryRows">
+                            <td class="summary-row-label"><label>{{ summaryRow.label }}</label></td>
+                            <td class="summary-row-value">{{ summaryRow.valueFunction(entries) | number:2 }}</td>
                         </tr>
                     </table>
                 </div>

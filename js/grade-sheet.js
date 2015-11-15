@@ -37,7 +37,6 @@ gradeSheet.factory('focus', function($timeout, $window) {
 });
 gradeSheet.controller('GradeSheetCtrl', ['$scope', 'focus', 'PersistentStorageService',
     function($scope, focus, PersistentStorageService) {
-        $scope._ = _;
         $scope.columnLabels = ['#', 'Name', 'Grade', 'Delete?'];
         $scope.entries = PersistentStorageService.getEntries();
 
@@ -54,9 +53,6 @@ gradeSheet.controller('GradeSheetCtrl', ['$scope', 'focus', 'PersistentStorageSe
         $scope.delete = function(index) {
             $scope.entries.splice(index, 1);
         }
-        $scope.averageIteratee = function(accumulator, value, index, collection) {
-            return accumulator + value.grade / collection.length;
-        };
     }
 ]);
 gradeSheet.controller('NewEntryCtrl', ['$scope',
@@ -74,6 +70,29 @@ gradeSheet.controller('NewEntryCtrl', ['$scope',
                 $scope.newEntry = {};
             }
         }
+    }
+]);
+gradeSheet.controller('SummaryCtrl', ['$scope',
+    function($scope) {
+        function computeMaxGrade(entries) {
+            return _(entries).max('grade').grade;
+        };
+        function computeMinGrade(entries) {
+            return _(entries).min('grade').grade;
+        };
+        function computeAverageGrade(entries) {
+            function averageIteratee(accumulator, value, index, collection) {
+                return accumulator + value.grade / collection.length;
+            };
+
+            return _(entries).reduce(averageIteratee, 0);
+        };
+
+        $scope.summaryRows = [
+            { label: 'Max:', valueFunction: computeMaxGrade },
+            { label: 'Average:', valueFunction: computeAverageGrade },
+            { label: 'Min:', valueFunction: computeMinGrade }
+        ];
     }
 ]);
 gradeSheet.directive('updateOnEnterInput', function() {
