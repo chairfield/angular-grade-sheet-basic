@@ -113,16 +113,18 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-xs-12 col-sm-5 col-md-5" style="background-color: LemonChiffon;">
+                <div class="col-xs-12 col-sm-5 col-md-5"
+                     style="background-color: LemonChiffon;"
+                     ng-show="entries.length >= 1">
                     <h3>Summary</h3>
                     <table class="table">
                         <tr>
                             <td><label>Max:</label></td>
                             <td>{{ _(entries).max('grade').grade }}</td>
                         </tr>
-                        <tr>
+                        <tr ng-show="entries.length >= 2">
                             <td><label>Average:</label></td>
-                            <td>{{ _(entries).reduce(averageIteratee, 0) }}</td>
+                            <td>{{ _(entries).reduce(averageIteratee, 0) | number:2 }}</td>
                         </tr>
                         <tr>
                             <td><label>Min:</label></td>
