@@ -11,10 +11,12 @@
             input:focus { border: 2px solid green; }
             input[type="text"] { width: 300px; }
             input[type="number"] { width: 75px; }
-            .table { width: auto; }
+            .table { width: auto; background: #EEE; }
             .table > tbody > tr > td { border: 1px solid #EEE; padding: 0px; height: 30px; }
             .table > button { height: 30px; padding: 0px; }
-            .column-label > td, .row-label { text-align: center; background: #EEE; width: 30px; }
+            .column-label > td, .row-label { text-align: center; width: 30px; }
+            .summary-row-label { text-align: right; width: 90px; }
+            .summary-row-value { text-align: center; width: 68px; }
             .failing { border: 2px solid red; }
             .delete-button { width: 100%; height: 32px; margin: 1px 0px; background-color: transparent; }
         </style>
@@ -57,16 +59,16 @@
                     <h3>Summary</h3>
                     <table class="table">
                         <tr>
-                            <td><label>Max:</label></td>
-                            <td>{{ _(entries).max('grade').grade }}</td>
+                            <td class="summary-row-label"><label>Max:</label></td>
+                            <td class="summary-row-value">{{ _(entries).max('grade').grade }}</td>
                         </tr>
                         <tr ng-show="entries.length >= 2">
-                            <td><label>Average:</label></td>
-                            <td>{{ _(entries).reduce(averageIteratee, 0) | number:2 }}</td>
+                            <td class="summary-row-label"><label>Average:</label></td>
+                            <td class="summary-row-value">{{ _(entries).reduce(averageIteratee, 0) | number:2 }}</td>
                         </tr>
                         <tr>
-                            <td><label>Min:</label></td>
-                            <td>{{ _(entries).min('grade').grade }}</td>
+                            <td class="summary-row-label"><label>Min:</label></td>
+                            <td class="summary-row-value">{{ _(entries).min('grade').grade }}</td>
                         </tr>
                     </table>
                 </div>
