@@ -87,6 +87,7 @@
             .table > button { height: 30px; padding: 0px; }
             .column-label > td, .row-label { text-align: center; background: #EEE; }
             .failing { border: 2px solid red; }
+            .delete-button { width: 100%; height: 32px; margin: 1px 0px; background-color: transparent; }
         </style>
     </head>
     <body ng-app="myApp">
@@ -103,7 +104,7 @@
                             <td class="row-label">{{$index}}</td>
                             <td><update-on-enter-input model="entry.name" type="text"></update-on-enter-input></td>
                             <td><update-on-enter-input model="entry.grade" type="number" ng-class="{failing: entry.grade < 65}"></update-on-enter-input></td>
-                            <td><button class="btn" ng-click="delete($index)">delete</button></td>
+                            <td><button class="btn delete-button" ng-click="delete($index)"><span class="glyphicon glyphicon-remove"</button></td>
                         </tr>
                         <tr ng-controller="NewEntryCtrl">
                             <td class="row-label">New:</td>
