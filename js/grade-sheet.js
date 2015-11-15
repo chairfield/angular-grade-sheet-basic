@@ -82,7 +82,7 @@ gradeSheet.directive('updateOnEnterInput', function() {
         // Must replace the original update-on-enter-input element so that additional
         // attributes are added to the input in the directive template
         replace: true,
-        template: '<input ng-model=\"model\" ng-model-options=\"{updateOn: \'change blur\'}\"></input>',
+        template: '<input ng-model=\"model\" ng-model-options=\"{updateOn: \'change blur\'}\">',
         scope: {
             model: '='
         }
