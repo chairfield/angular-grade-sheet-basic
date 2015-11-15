@@ -2,19 +2,42 @@
     <head>
         <script src="lib/angular.js"></script>
         <script src="lib/lodash.js"></script>
+        <script src="lib/angular-local-storage.js"></script>
         <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
         <script>
-            var myApp = angular.module('myApp', []);
-            myApp.controller('GradeSheetCtrl', ['$scope',
-                function($scope) {
+            var myApp = angular.module('myApp', ['LocalStorageModule']);
+            myApp.config(function(localStorageServiceProvider) {
+                localStorageServiceProvider.setPrefix('myGradeSheetApp');
+            });
+            myApp.service('PersistentStorageService', ['$q', 'localStorageService',
+                function($q, localStorageService) {
+                    return {
+                        getEntries: function() {
+                            return $q.when(localStorageService.get('entries'));
+                        },
+                        setEntries: function(entries) {
+                            localStorageService.set('entries', entries)
+                        }
+                    }
+                }
+            ]);
+            myApp.controller('GradeSheetCtrl', ['$scope', 'PersistentStorageService',
+                function($scope, PersistentStorageService) {
                     $scope._ = _;
                     $scope.columnLabels = ['#', 'Name', 'Grade', 'Delete?'];
-                    $scope.entries = [
-                        { name: 'Wendy', grade: 72 },
-                        { name: 'Jacob', grade: 63 },
-                        { name: 'Harris', grade: 87 },
-                        { name: 'Penelope', grade: 94 }
-                    ];
+                    PersistentStorageService.getEntries()
+                        .then(function(entries) {
+                            $scope.entries = entries;
+
+                            var watcher = $scope.$watch('entries', function(newEntries) {
+                                PersistentStorageService.setEntries($scope.entries);
+                            },
+                            true); // Deep watch
+
+                            $scope.$on('$destroy', function() {
+                                watcher(); // Unbind the watch when the scope is destroyed
+                            });
+                        });
                     $scope.delete = function(index) {
                         $scope.entries.splice(index, 1);
                     }
