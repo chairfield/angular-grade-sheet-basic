@@ -33,14 +33,25 @@
                         </tr>
                         <tr ng-repeat="($index, entry) in entries">
                             <td class="row-label">{{$index}}</td>
-                            <td><update-on-enter-input model="entry.name" type="text"></update-on-enter-input></td>
-                            <td><update-on-enter-input model="entry.grade" type="number" ng-class="{failing: entry.grade < 65}"></update-on-enter-input></td>
+                            <td>
+                                <input ng-model="entry.name"
+                                       ng-model-options="{ updateOn: 'change blur' }"
+                                       ng-change="onNameChange($index, '{{entry.name}}')"
+                                       type="text">
+                            </td>
+                            <td>
+                                <input ng-model="entry.grade"
+                                       ng-model-options="{ updateOn: 'change blur' }"
+                                       ng-change="onGradeChange($index, '{{entry.grade}}')"
+                                       type="number"
+                                       ng-class="{failing: entry.grade < 65}">
+                            </td>
                             <td><button class="btn delete-button" ng-click="delete($index)"><span class="glyphicon glyphicon-remove"</button></td>
                         </tr>
                         <tr ng-controller="NewEntryCtrl">
                             <td class="row-label"></td>
                             <td>
-                                <input id="thingy"
+                                <input id="newEntryNameInput"
                                        ng-model="newEntry.name"
                                        type="text"
                                        ng-keyup="$event.keyCode == 13 && create()">

@@ -35,28 +35,44 @@ gradeSheet.factory('focus', function($timeout, $window) {
         });
     };
 });
-gradeSheet.controller('GradeSheetCtrl', ['$scope', 'focus', 'PersistentStorageService',
-    function($scope, focus, PersistentStorageService) {
+gradeSheet.controller('GradeSheetCtrl', ['$scope', '$log', 'focus', 'PersistentStorageService',
+    function($scope, $log, focus, PersistentStorageService) {
         $scope.columnLabels = ['#', 'Name', 'Grade', 'Delete?'];
         $scope.entries = PersistentStorageService.getEntries();
 
-        var watcher = $scope.$watch('entries', function(newEntries) {
+        $scope.onNameChange = function(entryId, oldName) {
+            var newName = $scope.entries[entryId].name;
+            if (angular.isString(newName) && /\S/.test(newName)) {
+                $log.info('name changed from', oldName, 'to', newName);
                 PersistentStorageService.setEntries($scope.entries);
-                focus('thingy');
-            },
-            true); // Deep watch
-
-        $scope.$on('$destroy', function() {
-            watcher(); // Unbind the watch when the scope is destroyed
-        });
+            }
+            else {
+                $log.warn('user attempted to modify name illegally; reverting back to', oldName);
+                $scope.entries[entryId].name = oldName;
+            }
+        }
+        $scope.onGradeChange = function(entryId, oldGrade) {
+            var newGrade = $scope.entries[entryId].grade;
+            if (angular.isNumber(newGrade)) {
+                $log.info('grade changed from', oldGrade, 'to', newGrade);
+                PersistentStorageService.setEntries($scope.entries);
+            }
+            else {
+                $log.warn('user attempted to modify grade illegally; reverting back to', oldGrade);
+                $scope.entries[entryId].grade = Number(oldGrade);
+            }
+        }
 
         $scope.delete = function(index) {
             $scope.entries.splice(index, 1);
+            PersistentStorageService.setEntries($scope.entries);
+
+            focus('newEntryNameInput');
         }
     }
 ]);
-gradeSheet.controller('NewEntryCtrl', ['$scope',
-    function($scope) {
+gradeSheet.controller('NewEntryCtrl', ['$scope', 'focus', 'PersistentStorageService',
+    function($scope, focus, PersistentStorageService) {
         $scope.newEntry = {};
 
         function canCreate() {
@@ -67,7 +83,9 @@ gradeSheet.controller('NewEntryCtrl', ['$scope',
         $scope.create = function() {
             if (canCreate()) {
                 $scope.entries.push($scope.newEntry);
+                PersistentStorageService.setEntries($scope.entries);
                 $scope.newEntry = {};
+                focus('newEntryNameInput');
             }
         }
     }
@@ -95,15 +113,4 @@ gradeSheet.controller('SummaryCtrl', ['$scope',
         ];
     }
 ]);
-gradeSheet.directive('updateOnEnterInput', function() {
-    return {
-        restrict: 'E',
-        // Must replace the original update-on-enter-input element so that additional
-        // attributes are added to the input in the directive template
-        replace: true,
-        template: '<input ng-model=\"model\" ng-model-options=\"{updateOn: \'change blur\'}\">',
-        scope: {
-            model: '='
-        }
-    }
-});
+
