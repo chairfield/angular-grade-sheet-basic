@@ -113,4 +113,16 @@ gradeSheet.controller('SummaryCtrl', ['$scope',
         ];
     }
 ]);
+gradeSheet.directive('centered', function() {
+    return {
+        restrict: 'E',
+        transclude: true,
+        replace: true,
+        template: '<div style="display: table; height: 100%; margin: auto;">' +
+                      '<div style="display: table-cell; vertical-align: middle;">' +
+                          '<ng-transclude></ng-transclude>' +
+                      '</div>' +
+                  '</div>'
+    }
+});
 
