@@ -64,3 +64,13 @@ label {
 .lemon-chiffon {
     background-color: LemonChiffon;
 }
+
+.centered-outer {
+    display: table;
+    height: 100%;
+    margin: auto;
+}
+.centered-inner {
+    display: table-cell;
+    vertical-align: middle;
+}

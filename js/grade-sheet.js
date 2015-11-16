@@ -118,8 +118,8 @@ gradeSheet.directive('centered', function() {
         restrict: 'E',
         transclude: true,
         replace: true,
-        template: '<div style="display: table; height: 100%; margin: auto;">' +
-                      '<div style="display: table-cell; vertical-align: middle;">' +
+        template: '<div class="centered-outer">' +
+                      '<div class="centered-inner">' +
                           '<ng-transclude></ng-transclude>' +
                       '</div>' +
                   '</div>'
