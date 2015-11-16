@@ -32,7 +32,7 @@
                             <td ng-repeat="label in columnLabels"><label>{{label}}</label></td>
                         </tr>
                         <tr ng-repeat="($index, entry) in entries">
-                            <td class="row-label">{{$index}}</td>
+                            <td class="row-label">{{$index + 1}}</td>
                             <td>
                                 <input ng-model="entry.name"
                                        ng-model-options="{ updateOn: 'change blur' }"
