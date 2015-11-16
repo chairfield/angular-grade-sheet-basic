@@ -5,7 +5,7 @@ gulp.task('default', function() {
     livereload.listen({
         port: 35729
     });
-    gulp.watch('index.html', function() {
+    gulp.watch(['index.html', 'js/grade-sheet.js'], function() {
         livereload.reload();
     });
 });
