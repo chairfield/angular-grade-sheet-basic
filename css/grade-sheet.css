@@ -57,3 +57,10 @@ label {
 .full-width {
     width: 100%;
 }
+
+.alice-blue {
+    background-color: AliceBlue;
+}
+.lemon-chiffon {
+    background-color: LemonChiffon;
+}
